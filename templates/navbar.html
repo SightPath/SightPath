@@ -1,0 +1,66 @@
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid" style="align-items:flex-start">
+    <div style="height:0; display: flex;">
+      <a class="navbar-brand" href="{% url 'home_page' %}"><b>SightPath</b></a>
+    </div>
+    <div style="position:relative;
+                width:100%;
+                display:flex;
+                flex-wrap:wrap-reverse;
+                justify-content: flex-end">
+      <div class="collapse navbar-collapse mt-2 mt-lg-0" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link {% if request.path == '/' %}active{% endif %}" aria-current="page" href="{% url 'home_page' %}">首頁</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.path == '/chatroom_home/' %}active{% endif %}" href="{% url 'chatroom_home' %}">討論串</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.path == '/find_competition/' %}active{% endif %}" href="{% url 'find_competition' %}">找比賽</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.path == '/find_activity/' %}active{% endif %}" href="{% url 'find_activity' %}">找活動</a>
+          </li>
+          {% if request.user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'profile' request.user.id %}">個人檔案</a>
+            </li>
+          {% endif %}
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/weifish0/SightPath" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </li>
+        </ul>
+        <form class="d-inline-flex align-items-center ms-auto"
+          style="margin-bottom: 0"
+          role="search"
+          method="get"
+          action="{% if tpe and tpe == 'chatroom_home' %}
+            {% url 'chatroom_home' %}
+          {% elif tpe %}
+            {% url 'find_'|add:tpe %}
+          {% else %}
+            
+            
+            find_activity
+
+
+          {% endif %}">
+          <input class="btn btn-md btn-light form-inline me-2" type="search" placeholder="Search" aria-label="Search" name="q" />
+          <button class="btn btn-success fs-11 me-3" type="submit">搜尋</button>
+        </form>
+      </div>
+      <div style="display: flex;
+                  flex-direction: row-reverse;
+                  margin-top: auto;
+                  margin-bottom: auto">
+        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="icon"></span></button>
+        {% if request.user.is_authenticated %}
+          <a class="btn btn-primary fs-11" href="{% url 'logout_user' %}" role="button">登出</a>
+        {% else %}
+          <a class="btn btn-primary fs-11" href="{% url 'login_page' %}" role="button">登入</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,475 @@
+@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+
+:host {
+    position: relative;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 1
+}
+
+:root {
+    --swiper-theme-color: #007aff;
+    --swiper-tinder-prev-color: navy;
+    --swiper-tinder-no-color: red;
+    --swiper-tinder-yes-color: green;
+    --swiper-tinder-label-text-color: #fff;
+    --swiper-tinder-label-font-size: 7rem;
+    --swiper-tinder-button-size: 56px;
+    --swiper-tinder-button-icon-size: 32px;
+    --swiper-navigation-size: 32px;
+}
+
+html,
+body {
+    position: relative;
+    height: 100%;
+    margin: 0;
+    padding: 0
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+
+    background: #fff;
+    line-height: 1.5;
+    font-family: -apple-system, system-ui, "Helvetica Neue", Helvetica, Arial, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale
+}
+
+#app {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box
+}
+
+/* (min-width: 480px) */
+@media (min-width: 768px) and (min-height: 480px) {
+    /* body {
+        background: #121212
+    } */
+
+    #app {
+        /* height: 768px; */
+        /* width: 412px; */
+        width: 600px;
+        /* margin: 16px auto; */
+        margin: auto;
+        background: #fff;
+        border: 16px solid #fff;
+        border-radius: 32px;
+        box-shadow: 0 0 0 1px #fff3
+    }
+}
+
+.TitleBar {
+    align-self: stretch;
+    /* height: 74px; */
+    padding: 10px 0;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.SitconX {
+    margin-left: 20px;
+    margin-right: 20px;
+    flex: 1 1 0;
+    align-self: stretch;
+    text-align: center;
+    color: white;
+    font-size: 1.7rem;
+    font-family: Inter;
+    font-weight: 700;
+    line-height: 34px;
+    letter-spacing: 3.68px;
+    word-wrap: break-word
+}
+
+.Image {
+    width: 360px;
+    height: 301px;
+    position: relative
+}
+
+.TagBar {
+    display: flex;
+    column-gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    /* align-self: stretch; */
+    margin: 10px;
+}
+
+.TagKind {
+    padding-bottom: 8px;
+
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 20px;
+    display: inline-flex;
+}
+
+.Tag {
+    font-size: 1.25rem;
+    height: auto;
+    min-height: 28px;
+    padding: .3rem .8rem;
+    background: white;
+    border-radius: 20px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    display: inline-flex;
+}
+
+.Tag>div {
+    text-align: center;
+    color: black;
+    font-size: 18px;
+    font-family: Inter;
+    font-weight: 400;
+    letter-spacing: 1.08px;
+    word-wrap: break-word
+}
+
+.ShortData {
+    align-self: stretch;
+    /* height: 206px; */
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    /* flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+    display: flex */
+}
+
+.ShortData>div {
+    text-align: center;
+    color: white;
+    font-size: 24px;
+    font-family: Inter;
+    font-weight: 700;
+    line-height: 26px;
+    letter-spacing: 1.68px;
+    word-wrap: break-word
+}
+
+.Frame6 {
+    height: 55px;
+    justify-content: center;
+    align-items: center;
+    gap: .8rem;
+    display: inline-flex
+}
+
+.Ellipse1 {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(0deg, #FFF8F8 0%, #FFF8F8 100%)
+}
+
+.Sitcon {
+    color: white;
+    font-size: 1.5rem;
+    font-family: Inter;
+    font-weight: 500;
+    letter-spacing: 0.88px;
+    word-wrap: break-word
+}
+
+.Button {
+    padding: 5px 10px;
+    background: #9BF3BE;
+    border-radius: 20px;
+    font-size: 1.25rem;
+    justify-content: center;
+    align-items: center;
+    display: inline-flex
+}
+
+.Button>div {
+    text-align: center;
+    color: black;
+    font-size: 22px;
+    font-family: Inter;
+    font-weight: 400;
+    line-height: 35px;
+    letter-spacing: 1.10px;
+    word-wrap: break-word
+}
+
+img.loading {
+    user-select: none;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    z-index: -5;
+}
+
+.ShortDescription {
+    /* background: #447D7A; */
+    text-align: left;
+    word-wrap: break-word;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.SeeMoreButton {
+    align-self: stretch;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 22px;
+    padding-bottom: 22px;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1.5rem;
+    /* height: 100%; */
+}
+
+.swiper-slide {
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    background: #294B49;
+    overflow-y: hidden;
+    pointer-events: none;
+}
+
+.swiper-content {
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    position: absolute;
+    bottom: 0;
+    overflow-y: auto;
+    pointer-events: auto;
+}
+
+.swiper-content::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: calc(var(--swiper-tinder-button-size) + 32px);
+}
+
+/* swiper-slide:before */
+.swiper-slide:not(.demo-empty-slide)::after {
+    content: "";
+    display: block;
+    position: sticky;
+    left: 0;
+    /* bottom: 0; */
+    width: 100%;
+    min-height: 100%;
+    pointer-events: none;
+
+    background-repeat: no-repeat;
+    background-position: bottom;
+    background-size: 100% calc(var(--swiper-tinder-button-size) + 32px);
+    background-image: linear-gradient(to top, rgba(0, 0, 0, .95) 25%, rgba(0, 0, 0, 0));
+    z-index: 10;
+}
+
+.swiper-slide img {
+    pointer-events: none;
+    user-select: none;
+    touch-action: none;
+    max-width: 100%;
+}
+
+.swiper-slide p {
+    /* pointer-events: none;
+    user-select: none; */
+    font-size: 1.35rem;
+    padding: 0 16px;
+}
+
+/* @font-face {
+    font-family: "swiper-icons";
+    src: url(data:application/font-woff;charset=utf-8;base64,\ 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) format("woff");
+    font-weight: 400;
+    font-style: normal
+} */
+
+.swiper-tinder {
+    box-sizing: border-box;
+    overflow: visible;
+}
+
+/* .swiper-tinder .swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover
+} */
+
+.swiper-tinder-label-parent {
+    z-index: 100;
+    position: sticky;
+    /* height: 0; */
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.swiper-tinder-label {
+    box-shadow: 0 0 10rem black;
+    position: absolute;
+    margin-top: 5%;
+    height: max-content;
+    font-size: var(--swiper-tinder-label-font-size);
+    font-weight: bold;
+    padding: 4px 12px;
+    text-transform: uppercase;
+    border-radius: 4px;
+    opacity: 0;
+    color: var(--swiper-tinder-label-text-color)
+}
+
+.swiper-tinder-label-yes {
+    margin-left: 3%;
+    /* top: 5%; */
+    rotate: -20deg;
+    background-color: var(--swiper-tinder-yes-color);
+    transform-origin: right top
+}
+
+.swiper-tinder-label-no {
+    right: 0;
+    margin-right: 3%;
+    /* top: 5%; */
+    rotate: 20deg;
+    background-color: var(--swiper-tinder-no-color);
+    transform-origin: left top
+}
+
+.swiper-tinder {
+    /* padding: 16px; */
+    /* height: 100%; */
+    width: 100%;
+}
+
+.demo-slide-name {
+    padding: 16px 16px 96px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
+    color: #fff;
+    z-index: 200;
+    font-size: 24px
+}
+
+.demo-empty-slide {
+    background: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    line-height: 1.5;
+    text-align: center;
+    font-weight: bold;
+    color: #555;
+    text-shadow: 0px 1px 0px #fff
+}
+
+.demo-empty-slide:before {
+    display: none
+}
+
+
+.swiper-tinder-button {
+    position: absolute;
+    cursor: pointer;
+    bottom: 32px;
+    width: var(--swiper-tinder-button-size);
+    height: var(--swiper-tinder-button-size);
+    border: 1px solid;
+    border-radius: 999px;
+    background: transparent;
+    appearance: none;
+    outline: none;
+    box-shadow: none;
+    z-index: 100;
+    transition-duration: .1s;
+    font-size: var(--swiper-tinder-button-icon-size) !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0
+}
+
+.swiper-tinder-button svg {
+    width: var(--swiper-tinder-button-icon-size);
+    height: var(--swiper-tinder-button-icon-size)
+}
+
+.swiper-tinder-button-hidden {
+    opacity: 0;
+    pointer-events: none
+}
+
+.swiper-tinder-button-no {
+    border-color: var(--swiper-tinder-no-color);
+    left: calc(25% - 28px)
+}
+
+.swiper-tinder-button-no svg {
+    fill: var(--swiper-tinder-no-color)
+}
+
+.swiper-tinder-button-no.swiper-tinder-button-active,
+.swiper-tinder-button-no:active {
+    background: var(--swiper-tinder-no-color)
+}
+
+.swiper-tinder-button-no.swiper-tinder-button-active svg,
+.swiper-tinder-button-no:active svg {
+    fill: #fff
+}
+
+.swiper-tinder-button-yes {
+    border-color: var(--swiper-tinder-yes-color);
+    left: calc(75% - 28px)
+}
+
+.swiper-tinder-button-yes svg {
+    fill: var(--swiper-tinder-yes-color)
+}
+
+.swiper-tinder-button-yes.swiper-tinder-button-active,
+.swiper-tinder-button-yes:active {
+    background: var(--swiper-tinder-yes-color)
+}
+
+.swiper-tinder-button-yes.swiper-tinder-button-active svg,
+.swiper-tinder-button-yes:active svg {
+    fill: #fff
+}
+
+.swiper-button-prev {
+    top: unset;
+    left: calc(50% - 28px)
+}
+
+.swiper-button-disabled {
+    color: gray;
+}

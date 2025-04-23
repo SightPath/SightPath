@@ -1,0 +1,51 @@
+<div style="margin-bottom:1em">
+  {% if category != None %}
+    <a style="font-size: large;
+                  color: #1A0DAB" href="{{ request.path }}?category={{ category }}"><b>#{{ category }}</b></a>
+  {% else %}
+    <a href="{{ request.path }}" style="font-size: large; color: #1A0DAB"><b>全部{{ tpe_zh }}</b></a>
+  {% endif %}
+  <b style="font-size: large;">找到 {{ count }} 個{{ tpe_zh }}</b>
+</div>
+{% for data in comp_activities|slice:'0:20' %}
+  <h3 class="shad"><a class="link-secondary" href="{% url tpe|add:'_info' data.id %}">{{ data.name }}</a></h3>
+  {% for tag in data.our_tags.all|slice:'0:5' %}
+    <a style="font-size: large;
+                  color: #1A0DAB" href="{{ request.path }}?category={{ tag }}"><b>{{ tag }}</b></a>
+  {% endfor %}
+  {% for tag in data.tags.all|slice:'0:5' %}
+    <a href="{{ request.path }}?category={{ tag }}">{{ tag }}</a>
+  {% endfor %}
+  <br />
+  <small>報名開始日期：{{ data.start_time }}</small>
+  <small>截止日期：{{ data.end_time }}</small>
+  {% if data.agency_title != None %}
+    <br />
+    <small>籌辦組織：{{ data.agency_title }}</small>
+  {% endif %}
+  <br />
+  <small>瀏覽次數：{{ data.page_views }}</small>
+  {% if data.location != None %}
+    {% if data.eventPlaceType != None %}
+      <br />
+      {% if data.eventPlaceType == 'Offline' %}
+        {% with place='線下' %}
+          <small>活動地點: {{ data.location }} - {{ place }}</small>
+        {% endwith %}
+      {% elif data.eventPlaceType == 'Online' %}
+        {% with place='線上' %}
+          <small>活動地點: {{ data.location }} - {{ place }}</small>
+        {% endwith %}
+      {% else %}
+        <small>活動地點: {{ data.location }} - {{ data.eventPlaceType }}</small>
+      {% endif %}
+    {% endif %}
+  {% endif %}
+  {% if data.likeCount != None %}
+    <br />
+    <small>讚數: {{ data.likeCount }}</small>
+  {% endif %}
+  <br />
+  <br />
+  {% comment %} <hr /> {% endcomment %}
+{% endfor %}

@@ -1,0 +1,28 @@
+{% extends 'main.html' %}
+{% block content %}
+  <div class="div_container flex_container" style="column-gap: 1.5em;">
+    <div class="flex_left">
+      {% if request.user.is_authenticated %}
+        <p>hello {{ request.user.nickname }}~</p>
+      {% endif %}
+      <details open>
+        <summary>
+          <b style="font-size: large;">{{ tpe_zh }}分類</b>
+        </summary>
+        <div>
+          <a href="{{ request.path }}" style="font-size: large;
+                              color: #1A0DAB"><b>全部{{ tpe_zh }}</b></a>
+        </div>
+        <div>
+          {% for competition_tag in ourtag %}
+            <a style="font-size: large;
+                                  color: #1A0DAB" href="{{ request.path }}?category={{ competition_tag }}"><b>#{{ competition_tag }}</b></a>
+          {% endfor %}
+        </div>
+      </details>
+    </div>
+    <div class="mt-20 flex_right">
+      {% include 'base/feed.html' %}
+    </div>
+  </div>
+{% endblock %}

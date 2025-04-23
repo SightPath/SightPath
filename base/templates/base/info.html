@@ -1,0 +1,50 @@
+{% extends 'main.html' %}
+{% block content %}
+  <div class="div_container">
+    <h2 class="link-secondary info_title"><b>{{ comp_activity.name }}</b></h2>
+    <div class="flex_container" style="gap: 1.5em;">
+      <div class="flex_left">
+        <p>
+          <b>開始報名日期：</b> {{ comp_activity.start_time }}
+        </p>
+        <p>
+          <b>截止日期：</b> {{ comp_activity.end_time }}
+        </p>
+        {% if comp_activity.agency_title != None %}
+          <p>
+            <b>籌辦組織：</b> {{ comp_activity.agency_title }}
+          </p>
+        {% endif %}
+        {% if comp_activity.url != None %}
+          <p>
+            <b>{{ tpe_zh }}網址：</b>
+            {% if comp_activity.url == '' %}
+              <a href="https://www.accupass.com/event/{{ comp_activity.eventIdNumber }}" target="_blank" rel="noopener noreferrer">https://www.accupass.com/event/{{ comp_activity.eventIdNumber }}</a>
+            {% else %}
+              <a href="{{ comp_activity.url }}" target="_blank" rel="noopener noreferrer">{{ comp_activity.url }}</a>
+            {% endif %}
+          </p>
+        {% endif %}
+        <p>
+          <b>標籤：</b>
+          {% for tag in our_tags %}
+            <a style="font-size: large;
+                                  color: #1A0DAB" href="{% url 'find_'|add:tpe %}?category={{ tag }}"><b>{{ tag }}</b></a>
+          {% endfor %}
+          {% for tag in tags %}
+            <a href="{% url 'find_'|add:tpe %}?category={{ tag }}">{{ tag }}</a>
+          {% endfor %}
+        </p>
+      </div>
+      <div class="flex_right">
+        {{ comp_activity.summary }}
+        {% if comp_activity.summary %}
+          <br />
+          <br />
+        {% endif %}
+        {{ comp_activity.description|safe }}
+        {% comment %} {{ comp_activity.guide_line_html|safe }} {% endcomment %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
