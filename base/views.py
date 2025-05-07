@@ -524,7 +524,7 @@ def card_content(request):
     # comp_activities += [x for x in list(activities) if x.pk == 3654]
     li = random.sample(list(activities), 3)
     for it in li:
-        it.summary = it.summary.replace("&nbsp;", " ")
+        it.summary = (it.summary or "").replace("&nbsp;", " ")
     comp_activities += li
 
     # # pick first 8 tags
