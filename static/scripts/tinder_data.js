@@ -57,19 +57,48 @@ function storeData(id_st, love_or_nope) {
     }
 }
 
+let isLoading = false;
+let lastScrollTop = 0;
+
+// 初始加載
+document.addEventListener('DOMContentLoaded', function() {
+    // 監聽滾動事件
+    const appContainer = document.getElementById('app');
+    if (!appContainer) return;
+
+    appContainer.addEventListener('scroll', function() {
+        const scrollTop = this.scrollTop;
+        const scrollHeight = this.scrollHeight;
+        const clientHeight = this.clientHeight;
+        
+        // 向下滾動且接近底部時加載更多
+        if (scrollTop > lastScrollTop && scrollHeight - scrollTop - clientHeight < 200) {
+            loadCards();
+        }
+        
+        lastScrollTop = scrollTop;
+    });
+});
+
 function loadCards() {
+    if (isLoading) return;
+    isLoading = true;
+
     $.ajax({
         type: "GET",
         url: "/home_update",
         data: {},
         success: function (newData) {
-            // remove .demo-empty-slide
-            // swiper.removeSlide(tot - 1);
-            let li = newData.split('<!-- SPLIT TAG -->')
-            swiper.appendSlide(li)
-            console.log(`successfully added ${li.length} slides`)
+            if (newData.trim()) {
+                const wrapper = document.querySelector('.swiper-wrapper');
+                wrapper.insertAdjacentHTML('beforeend', newData);
+            }
+            isLoading = false;
+        },
+        error: function() {
+            isLoading = false;
         }
-    })
+    });
 }
 
 async function delete_data(del_url) {

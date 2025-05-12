@@ -477,8 +477,11 @@ def home_page(request):
 
 
 def home_update(request):
-    context = card_content(request)
-    context["tpe"] = "activity"
+    offset = int(request.GET.get('offset', 0))
+    page_size = 10  # 每次回傳10筆
+    all_activities = get_all_activities()  # 這裡換成你的查詢
+    activities = all_activities[offset:offset+page_size]
+    context = {'comp_activities': activities}
     return render(request, "base/tinder_card.html", context)
 
 

@@ -1,14 +1,9 @@
 {% load static %}
 {% for comp in comp_activities %}
-  {% comment %}Wrapper tinder--card{% endcomment %}
-  {% comment %} {% if forloop.second %} swiper-slide-next {% endif %}
-  {% if forloop.first %} swiper-slide-visible swiper-slide-fully-visible swiper-slide-active {% endif %} {% endcomment %}
   <div class="swiper-slide" id="{{ comp }}_{{ comp.id }}">
     <div class="swiper-tinder-label-parent">
-      <div class="swiper-tinder-label swiper-tinder-label-yes" style="transition-duration: 300ms;
-                        opacity: 0">Like</div>
-      <div class="swiper-tinder-label swiper-tinder-label-no" style="transition-duration: 300ms;
-                        opacity: 0">Nope</div>
+      <div class="swiper-tinder-label swiper-tinder-label-yes">Like</div>
+      <div class="swiper-tinder-label swiper-tinder-label-no">Nope</div>
     </div>
     <div class="swiper-content">
       <div class="TitleBar">
@@ -52,7 +47,6 @@
       <div class="ShortDescription text-light">
         <p>
           {% if comp.summary != None %}
-            {% comment %}|linebreaks{% endcomment %}
             {{ comp.summary|slice:150|linebreaksbr }}
           {% else %}
             {{ comp.description|striptags|slice:150|linebreaksbr }}
@@ -76,9 +70,6 @@
       </div>
     </div>
   </div>
-  {% if not forloop.last %}
-    <!-- SPLIT TAG -->
-  {% endif %}
 {% endfor %}
 {% comment %} <div class="swiper-slide demo-empty-slide">
   <img draggable="false" alt="Image description" class="loading" src="{% static 'images/user_profile_img/loading.gif' %}" />
