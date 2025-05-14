@@ -11,11 +11,6 @@
   </div>
 {% endblock %}
 {% block extraScript %}
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-  {% if user.is_authenticated %}
-  <script type="text/javascript">
-    window.CSRF_TOKEN = '{{ csrf_token }}'
-  </script>
-    <script src="{% static '/scripts/tinder_data.js' %}"></script>
-  {% endif %}
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="{% static 'scripts/tinder_data.js' %}"></script>
 {% endblock %}

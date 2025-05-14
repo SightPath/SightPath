@@ -62,7 +62,6 @@ let lastScrollTop = 0;
 
 // 初始加載
 document.addEventListener('DOMContentLoaded', function() {
-    // 監聽滾動事件
     const appContainer = document.getElementById('app');
     if (!appContainer) return;
 
@@ -70,33 +69,33 @@ document.addEventListener('DOMContentLoaded', function() {
         const scrollTop = this.scrollTop;
         const scrollHeight = this.scrollHeight;
         const clientHeight = this.clientHeight;
-        
-        // 向下滾動且接近底部時加載更多
-        if (scrollTop > lastScrollTop && scrollHeight - scrollTop - clientHeight < 200) {
+
+        // 滾動到底部時自動加載
+        if (scrollHeight - scrollTop - clientHeight < 200) {
             loadCards();
         }
-        
-        lastScrollTop = scrollTop;
     });
 });
 
 function loadCards() {
-    if (isLoading) return;
-    isLoading = true;
+    if (window.isLoading) return;
+    window.isLoading = true;
+
+    const currentCount = document.querySelectorAll('.swiper-slide').length;
 
     $.ajax({
         type: "GET",
         url: "/home_update",
-        data: {},
+        data: { offset: currentCount },
         success: function (newData) {
             if (newData.trim()) {
                 const wrapper = document.querySelector('.swiper-wrapper');
                 wrapper.insertAdjacentHTML('beforeend', newData);
             }
-            isLoading = false;
+            window.isLoading = false;
         },
         error: function() {
-            isLoading = false;
+            window.isLoading = false;
         }
     });
 }
@@ -119,4 +118,76 @@ async function delete_data(del_url) {
         console.log("deleted tinder_data successfully")
     }
     // getData("love");
+}
+
+// 按讚/按爛功能
+// 注意：兩個按鈕都用 .card-action-btn class
+
+document.addEventListener('click', function(e) {
+    // Like
+    if (e.target.closest('.card-like-btn')) {
+        const btn = e.target.closest('.card-like-btn');
+        const card = btn.closest('.custom-card');
+        const compId = card.getAttribute('data-id');
+        const compType = card.getAttribute('data-type');
+        if (!compId || !compType) return;
+        const idStr = `${compType}_${compId}`;
+        // toggle 狀態
+        if (btn.classList.contains('liked')) {
+            btn.classList.remove('liked', 'animate');
+        } else {
+            btn.classList.remove('disliked');
+            btn.classList.add('animate', 'liked');
+            setTimeout(() => btn.classList.remove('animate'), 300);
+        }
+        storeData(new Set([idStr]), 'love');
+    }
+    // Dislike
+    if (e.target.closest('.card-dislike-btn')) {
+        const btn = e.target.closest('.card-dislike-btn');
+        const card = btn.closest('.custom-card');
+        const compId = card.getAttribute('data-id');
+        const compType = card.getAttribute('data-type');
+        if (!compId || !compType) return;
+        const idStr = `${compType}_${compId}`;
+        // toggle 狀態
+        if (btn.classList.contains('disliked')) {
+            btn.classList.remove('disliked', 'animate');
+        } else {
+            btn.classList.remove('liked');
+            btn.classList.add('animate', 'disliked');
+            setTimeout(() => btn.classList.remove('animate'), 300);
+        }
+        storeData(new Set([idStr]), 'nope');
+    }
+});
+
+// Learn More 彈出 bottom sheet
+document.addEventListener('click', function(e) {
+    const learnMoreBtn = e.target.closest('.card-learnmore-btn');
+    if (learnMoreBtn) {
+        e.preventDefault();
+        const card = learnMoreBtn.closest('.custom-card');
+        const title = card.querySelector('.card-title').innerText;
+        const tags = Array.from(card.querySelectorAll('.card-tag')).map(t => t.innerText);
+        const date = card.querySelector('.card-date-text')?.innerText || '';
+        const link = learnMoreBtn.getAttribute('href');
+        const description = card.getAttribute('data-description') || '（請補充活動介紹內容）';
+
+        document.getElementById('sheet-title').innerText = title;
+        document.getElementById('sheet-labels').innerHTML =
+            `<span class="sheet-label"><i class="fa fa-calendar"></i> ${date}</span>` +
+            tags.map(t => `<span class="sheet-label">${t}</span>`).join('');
+        document.getElementById('sheet-link').innerHTML =
+            `<i class="fa fa-link"></i> <a href="${link}" target="_blank">${link}</a>`;
+        document.getElementById('sheet-description').innerText = description;
+
+        document.getElementById('activity-detail-sheet').classList.add('active');
+        document.getElementById('activity-detail-mask').classList.add('active');
+    }
+});
+
+function closeSheet() {
+    document.getElementById('activity-detail-sheet').classList.remove('active');
+    document.getElementById('activity-detail-mask').classList.remove('active');
 }
