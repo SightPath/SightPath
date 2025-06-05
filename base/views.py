@@ -477,8 +477,11 @@ def home_page(request):
 
 
 def home_update(request):
-    context = card_content(request)
-    context["tpe"] = "activity"
+    offset = int(request.GET.get('offset', 0))
+    page_size = 10  # 每次回傳10筆
+    all_activities = get_all_activities()  # 這裡換成你的查詢
+    activities = all_activities[offset:offset+page_size]
+    context = {'comp_activities': activities}
     return render(request, "base/tinder_card.html", context)
 
 
@@ -513,8 +516,9 @@ def card_content(request):
     # randomly pick 5 elements
     # valid_id_list = list(competitions.values_list('id', flat=True))
     # random_id_list = random.sample(valid_id_list, min(len(valid_id_list), 5))
-
-    li = random.sample(list(competitions), 3)
+    activity_list = list(competitions)
+    k = min(3, len(activity_list))
+    li = random.sample(activity_list, k)
     for it in li:
         # it.guide_line_html = cleanhtml(it.guide_line_html)
         # it.guide_line_html = it.guide_line_html.replace('\n', '<br>').replace('\r\n', '<br>')
@@ -522,9 +526,11 @@ def card_content(request):
     comp_activities = li
 
     # comp_activities += [x for x in list(activities) if x.pk == 3654]
-    li = random.sample(list(activities), 3)
+    activity_list = list(activities)
+    k = min(3, len(activity_list))
+    li = random.sample(activity_list, k)
     for it in li:
-        it.summary = it.summary.replace("&nbsp;", " ")
+        it.summary = (it.summary or "").replace("&nbsp;", " ")
     comp_activities += li
 
     # # pick first 8 tags
@@ -764,3 +770,20 @@ def line_login_settings(request):
         return redirect("profile", pk=user.id)
     except:
         return HttpResponse("你不是使用line登入")
+
+
+def get_all_activities():
+    # 依照 id 排序，確保順序穩定且不重複
+    competitions = list(Competition.objects.all().order_by('id'))
+    activities = list(Activity.objects.all().order_by('id'))
+    # 合併後再依 id 排序，確保全局唯一且不重複
+    all_objs = competitions + activities
+    # 用 id 做唯一性過濾（假設 id 全域唯一，否則可用 (type, id)）
+    seen = set()
+    unique_objs = []
+    for obj in all_objs:
+        key = (obj.__class__.__name__, obj.id)
+        if key not in seen:
+            seen.add(key)
+            unique_objs.append(obj)
+    return unique_objs
